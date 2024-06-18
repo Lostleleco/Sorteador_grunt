@@ -9,7 +9,7 @@ module.exports = function(grunt) {
         },
         uglify: {
             options: {
-                mangle: false // Evita a minificação de nomes
+                mangle: false // desativa o mapeamento de nomes das variáveis
             },
             my_target: {
                 files: {
@@ -20,29 +20,23 @@ module.exports = function(grunt) {
         watch: {
             less: {
                 files: ['src/less/**/*.less'],
-                tasks: ['less:production'],
-                options: {
-                    livereload: true // Ativa o livereload para recarregar o navegador automaticamente
-                }
+                tasks: ['less:production']
             },
             js: {
                 files: ['src/script.js'],
-                tasks: ['uglify'],
-                options: {
-                    livereload: true // Ativa o livereload para recarregar o navegador automaticamente
-                }
+                tasks: ['uglify']
             }
+        },
+        clean: {
+            build: ['dist']
         }
     });
 
-    // Carrega plugins do Grunt necessários
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 
-    // Define a tarefa "build" que engloba less:production, uglify e watch
-    grunt.registerTask('build', ['less:production', 'uglify']);
-
-    // Tarefa padrão, que executa build e watch
+    grunt.registerTask('build', ['clean', 'less:production', 'uglify']);
     grunt.registerTask('default', ['build', 'watch']);
 };
